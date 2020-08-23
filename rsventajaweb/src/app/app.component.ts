@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faCar, faHome, faHeartbeat, faBuilding, faBriefcase, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
+import {  faEnvelope, faCar , faHome, faArrowUp, faHeartbeat, faBuilding, faBriefcase, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,4 +14,6 @@ export class AppComponent {
   faBriefcase = faBriefcase;
   faMobileAlt = faMobileAlt;
   isNavbarCollapsed = false;
+  faArrowUp = faArrowUp;
+  faEnvelope = faEnvelope;
 }

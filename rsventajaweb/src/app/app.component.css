@@ -39,6 +39,7 @@ li:last-child {
 .navbar {
   font-size: 18px;
   position: fixed;
+  z-index: 9999;
   top: 0;
   left: 0;
   right: 0;
@@ -57,7 +58,6 @@ li:last-child {
   display: flex;
   margin: 82px auto 32px;
   padding: 0 16px;
-  max-width: 960px;
   flex-direction: column;
   align-items: center;
 }
@@ -266,11 +266,13 @@ svg#clouds {
 .jumbotron {
     background-image: url("../assets/dustyroad.jpg");
     background-color: #3e4c51;
-	color: #fff;
+    color: #fff;
+    padding: 100px 25px;
 }
 
 .container-fluid {
     padding: 60px 50px;
+    width: 100%;
 }
 .slideanim {visibility:hidden;}
 .slide {
@@ -281,6 +283,26 @@ svg#clouds {
     visibility: visible;
 }
 
+@keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
 
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
