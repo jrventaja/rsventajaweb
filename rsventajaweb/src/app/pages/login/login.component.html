@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">
+        <img width="40" alt="RS Ventaja" src="../assets/rsventajalogo.png" />
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link" href="#sobre">Sobre nós</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#produtos">Produtos</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#seguradoras">Seguradoras</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#contato">Contato</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="jumbotron text-center">
+    <img alt="RS Ventaja" src="../assets/rsventajalogo.png" width="100" height="100">
+
+    <h1><b>RS Ventaja</b></h1>
+    <h4>Corretora de Seguros</h4>
+
+</div>
+<div class="container-fluid">
+    <form [formGroup]="signForm" (ngSubmit)="onSubmit(signForm.value)">
+        <label for="user">Usuário</label><br>
+        <input type="text" id="user" name="user" formControlName="user"><br><br>
+        <label for="password">Senha</label><br>
+        <input type="password" id="password" name="password" formControlName="password"><br><br>
+        <input type="submit" value="Submit">
+        
+      </form>
+      {{ sessionStorage.getItem('Token') }}
+</div>

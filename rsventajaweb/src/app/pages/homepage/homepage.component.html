@@ -1,0 +1,200 @@
+
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">
+      <img width="40" alt="RS Ventaja" src="../assets/rsventajalogo.png" />
+    </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li>
+          <a class="nav-link" href="#sobre">Sobre nós</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#produtos">Produtos</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#seguradoras">Seguradoras</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#contato">Contato</a>
+        </li>
+      </ul>      
+    </div>
+    <div style="align-items: right;">
+        <ul class="navbar-nav">        
+            <li>
+                <a class="nav-link" routerLink="/login">Painel de Controle</a>
+              </li>
+          </ul>
+    </div>
+  </nav>
+  <div class="jumbotron text-center">
+    <img alt="RS Ventaja" src="../assets/rsventajalogo.png" width="100" height="100">
+  
+    <h1><b>RS Ventaja</b></h1>
+    <h4>Corretora de Seguros</h4>
+  
+  </div>
+  <div class="content" role="main">
+
+    <div id="sobre" class="container-fluid">
+      <div class="row col-sm-8">
+        <h2>Sobre nós</h2>
+        <br>
+        <h5>No mercado há 16 anos, trabalhamos com atenção especial às necessidades individuais do cliente.</h5><br>
+        <p>Temos orgulho em construir relações de confiança, possuindo clientes satisfeitos pelo nosso atendimento
+          personalizado e bem amparados pelas coberturas que oferecemos.</p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div id="produtos" class="container-fluid text-center">
+      <h2>Produtos</h2>
+      <h4>Trabalhamos com os seguintes seguros:</h4>
+      <br>
+      <div class="row slideanim">
+        <div class="col-sm-4">
+          <fa-icon class="fa-7x" [icon]="faCar"
+            ngbTooltip="É o seguro para carros, caminhões, motocicletas e outros veículos rodoviários. Seu principal uso é fornecer proteção financeira contra danos físicos ou lesões corporais resultantes de colisões no trânsito e contra a responsabilidade que também pode resultar de incidentes em um veículo.">
+          </fa-icon>
+          <h4>Automóvel</h4>
+          <p>Cobertura contra roubos, acidentes, e com assistência 24h!</p>
+        </div>
+        <div class="col-sm-4">
+          <fa-icon class="fa-7x" [icon]="faHome"
+            ngbTooltip="Protege a estrutura da casa e o que está dentro do imóvel. Oferece ainda serviços de manutenção e reparos.">
+          </fa-icon>
+          <h4>Residencial</h4>
+          <p>...também para sua casa!</p>
+        </div>
+        <div class="col-sm-4">
+          <fa-icon class="fa-7x" [icon]="faBuilding"
+            ngbTooltip="Oferece diversas coberturas para funcionários, finanças e patrimônio do seu negócio."></fa-icon>
+          <h4>Empresarial</h4>
+          <p>...e sua empresa!</p>
+        </div>
+      </div>
+      <br><br>
+      <div class="row slideanim">
+        <div class="col-sm-4">
+          <fa-icon class="fa-7x" [icon]="faBriefcase"
+            ngbTooltip="Cobre indenizações por danos realizados contra outrem, pelo segurado ou por terceiros tutelados ou sob sua responsabilidade.">
+          </fa-icon>
+          <h4>Responsabilidade Civil</h4>
+          <p>Quando tudo dá errado, a indenização é por nossa conta!</p>
+        </div>
+        <div class="col-sm-4">
+          <fa-icon class="fa-7x" [icon]="faHeartbeat"
+            ngbTooltip="O seguro de vida é um contrato entre o titular da apólice de seguro e uma seguradora ou seguradora, em que a seguradora promete pagar a um beneficiário designado uma quantia em dinheiro em troca de um prêmio, com a morte de uma pessoa segurada.">
+          </fa-icon>
+          <h4>Vida</h4>
+          <p>Preocupação com a sua família!</p>
+        </div>
+        <div class="col-sm-4">
+          <fa-icon class="fa-7x" [icon]="faMobileAlt"
+            ngbTooltip="O ramo de Riscos Diversos visa atender necessidades específicas de cobertura não encontradas nos ramos tradicionais de seguros. Desse modo, oferece várias modalidades e diversas coberturas para os riscos de perdas e danos materiais decorrentes de causa externa, exceto aqueles expressamente excluídos.">
+          </fa-icon>
+          <h4>Riscos Diversos</h4>
+          <p>Seus equipamentos protegidos!</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="seguradoras" class="container-fluid text-center bg-grey">
+      <h3>Seguradoras Parceiras</h3><br><br>
+      <div class="row slideanim">
+        <div class="col-sm-4">
+          <a href="https://www.portoseguro.com.br/" target="_blank">
+            <img alt="Porto Seguro" src="../assets/porto.jpg" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Porto Seguro</h5>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://www.segurosunimed.com.br/" target="_blank">
+            <img alt="Unimed" src="../assets/unimed.jpg" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Unimed</h5>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://www.mapfre.com.br/" target="_blank">
+            <img alt="Mapfre" src="../assets/mapfre.png" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Mapfre</h5>
+        </div>
+      </div>
+      <br>
+
+      <div class="row slideanim">
+        <div class="col-sm-4">
+          <a href="https://www.azulseguros.com.br/" target="_blank">
+            <img alt="Azul" src="../assets/azul.jpg" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Azul</h5>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://www.hdiseguros.com.br/" target="_blank">
+            <img alt="HDI" src="../assets/hdi.jpg" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>HDI</h5>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://portal.sulamericaseguros.com.br/" target="_blank">
+            <img alt="SulAmérica" src="../assets/sulamerica.png" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>SulAmérica</h5>
+        </div>
+      </div>
+      <br>
+      <div class="row slideanim">
+        <div class="col-sm-4">
+          <a href="https://www.itau.com.br/seguros/" target="_blank">
+            <img alt="Itaú" src="../assets/itau.png" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Itaú</h5>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://www.tokiomarine.com.br/" target="_blank">
+            <img alt="Tokio Marine" src="../assets/tokiomarine.png" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Tokio Marine</h5>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://sompo.com.br/" target="_blank">
+            <img alt="Sompo" src="../assets/sompo.png" class="img-circle" width="60" height="60">
+          </a>
+          <br>
+          <h5>Sompo</h5>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+
+    </div>
+
+    <div id="contato" class="slideanim container-fluid text-center bg-grey">
+      <h2>Contato</h2>
+      <br>
+      <h4><b>Roberto Ventaja</b></h4>
+      <h5 style="color:grey">Corretor de Seguros</h5>
+      <h6>roberto@rsventaja.com <a href="mailto:roberto@rsventaja.com">
+          <fa-icon style="color:grey" [icon]="faEnvelope"></fa-icon>
+        </a></h6>
+      <br>
+      <br>
+      <br>
+    </div>
+    <a href="#home" title="To Top">
+      <fa-icon class="fa-2x red" style="color:grey" [icon]="faArrowUp"></fa-icon>
+    </a>
+  </div>
