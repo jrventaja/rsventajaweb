@@ -49,7 +49,8 @@ export class NgbdModalContent {
 
 @Component({
   selector: 'authentication-failed-component',
-  templateUrl: './authentication-failed.html'
+  templateUrl: './authentication-failed.html',
+  styleUrls: ['./authentication-failed.component.css']
 })
 export class AuthenticationFailedComponent {
   constructor() {}
