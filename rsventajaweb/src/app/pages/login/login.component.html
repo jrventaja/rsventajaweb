@@ -23,17 +23,15 @@
     <img alt="RS Ventaja" src="../assets/rsventajalogo.png" width="100" height="100">
 
     <h1><b>RS Ventaja</b></h1>
-    <h4>Corretora de Seguros</h4>
+    <h2>Painel de Controle</h2>
 
 </div>
-<div class="container-fluid">
-    <form [formGroup]="signForm" (ngSubmit)="onSubmit(signForm.value)">
+<div class="content">
+    <form [formGroup]="signForm" style = "text-align: center" (ngSubmit)="onSubmit(signForm)">
         <label for="user">Usuário</label><br>
-        <input type="text" id="user" name="user" formControlName="user"><br><br>
-        <label for="password">Senha</label><br>
-        <input type="password" id="password" name="password" formControlName="password"><br><br>
-        <input type="submit" value="Submit">
-        
+        <input type="text" style = "text-align: center" id="user" name="user" formControlName="user"><br><br>
+        <label for="password">Senha</label><br>        
+        <input type="password" id="password" style = "text-align: center" name="password" formControlName="password"><br><br>
+        <input type="submit" value="Entrar">    
       </form>
-      {{ sessionStorage.getItem('Token') }}
 </div>

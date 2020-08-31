@@ -14,4 +14,8 @@
       </ul>
     </div>
   </nav>
-<p>controlpanel works!</p>
+  <div class="content">
+    <ng-container *ngIf="signedin"><p>Usuário autenticado!</p></ng-container>
+    <ng-container *ngIf="!signedin"><p>Usuário NÃO autenticado!</p></ng-container>
+  </div>
+

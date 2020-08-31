@@ -56,6 +56,7 @@
     padding: 0 16px;
     flex-direction: column;
     align-items: center;
+    font-size: 18px;
   }
 
   footer {
@@ -75,7 +76,9 @@
   }
   
   .jumbotron {
-      background-image: url("../../../assets/dustyroad.jpg");
+      background-image: url("../../../assets/control-panel.jpg");
+      background-repeat: no-repeat;
+      background-size: 100%;
       background-color: #3e4c51;
       color: #fff;
       padding: 100px 25px;
@@ -142,6 +145,10 @@
       transform: rotate(-5deg);
     }
   }
+  .fade.in {
+    opacity: 1;
+  }
+  
   
   @media screen and (max-width: 575px) {
     svg#rocket-smoke {
@@ -149,3 +156,4 @@
       visibility: hidden;
     }
   }
+

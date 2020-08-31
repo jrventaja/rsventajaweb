@@ -22,6 +22,7 @@ export class SecurityService {
         'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
     })
   };
+
   getToken(username: string, password: string) {
     const params = new HttpParams()
     .set('Username', username)
@@ -31,7 +32,18 @@ export class SecurityService {
         return object
     }, {})
     return this.httpClient
-      .post<UserToken>('https://localhost:44350/api/Authentication/token', JSON.stringify(paramsObject), this._httpOptions)
+      .post<UserToken>('https://localhost:44350/api/Authentication/token', JSON.stringify(paramsObject), this._httpOptions);
+  }
+
+  verifyAuthentication(token: string) {
+    const params = new HttpParams()
+    .set('token', token);
+    const paramsObject = params.keys().reduce((object, key) => {
+        object[key] = params.get(key)
+        return object
+    }, {})
+    return this.httpClient
+      .post<UserToken>('https://localhost:44350/api/Authentication/token/verify', JSON.stringify(paramsObject), this._httpOptions)
       .pipe(map(this.extractData), catchError(this.handleError.bind(this)));
   }
 
