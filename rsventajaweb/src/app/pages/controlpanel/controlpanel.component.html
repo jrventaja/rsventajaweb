@@ -11,11 +11,42 @@
         <li class="nav-item">
           <a class="nav-link" href="">Página Inicial</a>
         </li>
+        <ng-container *ngIf="signedin">
+          <li class="nav-item">
+            <a class="nav-link" href="">Buscar Apólice</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">Carregar Apólice</a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </nav>
-  <div class="content">
-    <ng-container *ngIf="signedin"><p>Usuário autenticado!</p></ng-container>
-    <ng-container *ngIf="!signedin"><p>Usuário NÃO autenticado!</p></ng-container>
+  <div class="content container-fluid">
+    <h2>Apólices com vencimento nos próximos 30 dias</h2><br>
+    <ng-container *ngIf="signedin">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Seguradora</th>          
+          <th scope="col">Início</th>
+          <th scope="col">Vencimento</th>
+          <th scope="col">Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let policy of policies$ | async">
+          <td>{{ policy.policyId }}</td>
+          <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
+          <td>{{ policy.insurer }}</td>
+          <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
+          <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
+          <td><button on-click="download(policy.policyId)">Download</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-container>
   </div>
 

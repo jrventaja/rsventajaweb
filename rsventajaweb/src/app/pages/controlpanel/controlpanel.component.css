@@ -11,6 +11,15 @@
     font-weight: 600;
     color: #c2c3c4;
   }
+
+  .table {
+    width: 70%;
+  }
+
+  .container-fluid {
+    padding: 60px 50px;
+    width: 80%;
+}
   
   .nav-link {
     color: #fff !important; 
