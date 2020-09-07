@@ -1,52 +1,128 @@
 <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">
-      <img width="40" alt="RS Ventaja" src="../assets/rsventajalogo.png" />
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">        
-        <li class="nav-item">
-          <a class="nav-link" href="">Página Inicial</a>
-        </li>
-        <ng-container *ngIf="signedin">
-          <li class="nav-item">
-            <a class="nav-link" href="">Buscar Apólice</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Carregar Apólice</a>
-          </li>
-        </ng-container>
-      </ul>
-    </div>
-  </nav>
-  <div class="content container-fluid">
-    <h2>Apólices com vencimento nos próximos 30 dias</h2><br>
-    <ng-container *ngIf="signedin">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Seguradora</th>          
-          <th scope="col">Início</th>
-          <th scope="col">Vencimento</th>
-          <th scope="col">Download</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let policy of policies$ | async">
-          <td>{{ policy.policyId }}</td>
-          <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
-          <td>{{ policy.insurer }}</td>
-          <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
-          <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
-          <td><button on-click="download(policy.policyId)">Download</button></td>
-        </tr>
-        </tbody>
-      </table>
-    </ng-container>
+  <a class="navbar-brand" href="#">
+    <img width="40" alt="RS Ventaja" src="../assets/rsventajalogo.png" />
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="">Página Inicial</a>
+      </li>
+    </ul>
   </div>
+</nav>
+<div class="jumbotron text-center">
+  <img alt="RS Ventaja" src="../assets/rsventajalogo.png" width="100" height="100">
 
+  <h1><b>RS Ventaja</b></h1>
+  <h2>Painel de Controle</h2>
+
+</div>
+<ng-container *ngIf="signedin">
+  <ngb-tabset [destroyOnHide]="false">
+    <ngb-tab title="Apólices a vencer">
+      <ng-template ngbTabContent>
+        <div class="content container-fluid">
+          <h3>Apólices com vencimento nos próximos 30 dias</h3><br>
+          <table class="table table-striped" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope="col">Dias Restantes</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Seguradora</th>
+                <th scope="col">Informações Adicionais</th>
+                <th scope="col">Início</th>
+                <th scope="col">Vencimento</th>
+                <th scope="col">Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let policy of policies$ | async">
+                <th>{{ calculateDays(policy.endDate) }}</th>
+                <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
+                <td>{{ policy.insurer }}</td>
+                <td>{{ policy.additionalInfo }}</td>
+                <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
+                <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
+                <td><button on-click="download(policy.policyId)">Download</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Buscar apólices vigentes">
+      <ng-template ngbTabContent>
+        <div class="content container-fluid">
+          <h3>Buscar apólices vigentes</h3><br>
+          <form [formGroup]="queryCurrentForm" style="text-align: center" (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
+            <label for="user">Digite parte ou o nome do cliente</label><br>
+            <input type="text" style="text-align: center" id="query" name="query" formControlName="query"><br><br>
+            <input type="submit" value="Buscar">
+          </form><br><br>
+          <table class="table table-striped" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope="col">Dias Restantes</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Seguradora</th>
+                <th scope="col">Informações Adicionais</th>
+                <th scope="col">Início</th>
+                <th scope="col">Vencimento</th>
+                <th scope="col">Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let policy of queryCurrentPolicies$ | async">
+                <th>{{ calculateDays(policy.endDate) }}</th>
+                <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
+                <td>{{ policy.insurer }}</td>
+                <td>{{ policy.additionalInfo }}</td>
+                <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
+                <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
+                <td><button on-click="download(policy.policyId)">Download</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Buscar apólices">
+      <ng-template ngbTabContent>
+        <div class="content container-fluid">
+          <h3>Buscar apólices</h3><br>
+          <form [formGroup]="queryForm" style="text-align: center" (ngSubmit)="onPoliciesSubmit(queryForm)">
+            <label for="user">Digite parte ou o nome do cliente</label><br>
+            <input type="text" style="text-align: center" id="query" name="query" formControlName="query"><br><br>
+            <input type="submit" value="Buscar">
+          </form><br><br>
+          <table class="table table-striped" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Seguradora</th>
+                <th scope="col">Informações Adicionais</th>
+                <th scope="col">Início</th>
+                <th scope="col">Vencimento</th>
+                <th scope="col">Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let policy of queryPolicies$ | async">
+                <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
+                <td>{{ policy.insurer }}</td>
+                <td>{{ policy.additionalInfo }}</td>
+                <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
+                <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
+                <td><button on-click="download(policy.policyId)">Download</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</ng-container>

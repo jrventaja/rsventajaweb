@@ -31,6 +31,11 @@ export class PolicyService {
       .get<Policy[]>('https://localhost:44350/api/Policy/duePolicies', this._httpOptions);
   }
 
+  getPoliciesQuery(query: string, currentOnly: boolean) {
+    return this.httpClient
+      .get<Policy[]>(`https://localhost:44350/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
+  }
+
   getPolicyFile(policyId: number) {
     return this.httpClient
       .get<FileResponse>(`https://localhost:44350/api/Policy/${policyId}/download`, this._httpOptions);
