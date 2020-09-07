@@ -13,6 +13,8 @@ import { Observable, of } from 'rxjs';
 export class LoginComponent implements OnInit {
   signForm: FormGroup;
   sessionStorage = sessionStorage;
+  displayWrongAuth = false;
+  displayNotFilled = false;
   constructor(private securityService: SecurityService, private formBuilder: FormBuilder, private router: Router, private modal: NgbModal) {
     this.signForm = this.formBuilder.group({
       user: '',
@@ -28,30 +30,28 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit(signForm: FormGroup) {
-    var userTokenData = await this.securityService.getToken(signForm.value.user, signForm.value.password).toPromise().catch(() => {
-      return null;
-    });
-    if (userTokenData != null){
-      sessionStorage.setItem("Token", userTokenData.token)
-      this.router.navigate(['/controlpanel'])
+    if (signForm.value.user.length > 0 && signForm.value.password.length > 0) {
+      this.displayNotFilled = false;
+      this.displayWrongAuth = false;
+      var userTokenData = await this.securityService.getToken(signForm.value.user, signForm.value.password).toPromise().catch(() => {
+        return null;
+      });
+      if (userTokenData != null) {
+        sessionStorage.setItem("Token", userTokenData.token)
+        this.router.navigate(['/controlpanel'])
+      } else {
+        this.displayWrongAuth = true;
+        this.signForm.reset();
+      }
     } else {
-      this.modal.open(AuthenticationFailedComponent);
-      this.signForm.reset();
+      this.displayNotFilled = true;
     }
-
+  }
+  closeFilled(){
+    this.displayNotFilled = false;
   }
 
-}
-export class NgbdModalContent {
-
-  constructor(public activeModal: NgbActiveModal) {}
-}
-
-@Component({
-  selector: 'authentication-failed-component',
-  templateUrl: './authentication-failed.html',
-  styleUrls: ['./authentication-failed.component.css']
-})
-export class AuthenticationFailedComponent {
-  constructor() {}
+  closeAuth(){
+    this.displayWrongAuth = false;
+  }
 }

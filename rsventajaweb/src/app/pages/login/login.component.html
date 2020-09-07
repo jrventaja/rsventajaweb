@@ -27,6 +27,8 @@
 
 </div>
 <div class="content">
+    <ngb-alert *ngIf="displayWrongAuth" (close)="closeAuth()">Usuário ou senha incorretos!</ngb-alert>
+    <ngb-alert *ngIf="displayNotFilled" (close)="closeFilled()">Favor preencher todos os campos antes de prosseguir!</ngb-alert>
     <form [formGroup]="signForm" style = "text-align: center" (ngSubmit)="onSubmit(signForm)">
         <label for="user">Usuário</label><br>
         <input type="text" style = "text-align: center" id="user" name="user" formControlName="user"><br><br>

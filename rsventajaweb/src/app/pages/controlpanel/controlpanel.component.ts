@@ -24,24 +24,30 @@ export class ControlpanelComponent implements OnInit {
   queryForm: FormGroup;
   insertForm: FormGroup;
   model: NgbDateStruct;
+  file: string | ArrayBuffer;
+  fileName: string;
   faCalendar = faCalendar;
+  displayAlert = false;
+  danger: 'danger';
+  displayQueryCurrent = false;
+  displayQueryAll = false;
   constructor(private securityService: SecurityService, private formBuilder: FormBuilder,
     private policyService: PolicyService, private insurerService: InsurerService) {
-      this.queryCurrentForm = this.formBuilder.group({
-        query: ''
-      });
-      this.queryForm = this.formBuilder.group({
-        query: ''
-      });
-      this.insertForm = this.formBuilder.group({
-        name: '',
-        insurer: 0,
-        additionalInfo: '',
-        startDate: '',
-        endDate: '',
-        file: ''
-      });
-    }
+    this.queryCurrentForm = this.formBuilder.group({
+      query: ''
+    });
+    this.queryForm = this.formBuilder.group({
+      query: ''
+    });
+    this.insertForm = this.formBuilder.group({
+      name: '',
+      insurer: 0,
+      additionalInfo: '',
+      startDate: '',
+      endDate: '',
+      file: ''
+    });
+  }
 
   async ngOnInit() {
     this.signedin = await this.securityService.verifyAuthentication(sessionStorage.getItem("Token")).toPromise();
@@ -54,8 +60,8 @@ export class ControlpanelComponent implements OnInit {
   }
 
   calculateDays(endDate: Date): number {
-    let nowDate = new Date ();    
-    endDate = new Date (endDate);
+    let nowDate = new Date();
+    endDate = new Date(endDate);
     return Math.floor((endDate.getTime() - nowDate.getTime()) / 1000 / 60 / 60 / 24);
   }
 
@@ -77,13 +83,23 @@ export class ControlpanelComponent implements OnInit {
   }
 
   onCurrentPoliciesSubmit(queryCurrentForm: FormGroup) {
-    this.queryCurrentPolicies$ = this.policyService.getPoliciesQuery(queryCurrentForm.value.query, true);
-    this.queryCurrentForm.reset();
+    if (queryCurrentForm.value.query.length > 0) {
+      this.displayQueryCurrent = false;
+      this.queryCurrentPolicies$ = this.policyService.getPoliciesQuery(queryCurrentForm.value.query, true);
+      this.queryCurrentForm.reset();
+    } else {
+      this.displayQueryCurrent = true;
+    }
   }
 
   onPoliciesSubmit(queryForm: FormGroup) {
-    this.queryPolicies$ = this.policyService.getPoliciesQuery(queryForm.value.query, false);
-    this.queryForm.reset();
+    if (queryForm.value.query.length > 0) {
+      this.displayQueryAll = false;
+      this.queryPolicies$ = this.policyService.getPoliciesQuery(queryForm.value.query, false);
+      this.queryForm.reset();
+    } else {
+      this.displayQueryAll = true;
+    }
   }
 
   async updateRenewalStarted(policyId: number, evt) {
@@ -91,8 +107,38 @@ export class ControlpanelComponent implements OnInit {
     await this.policyService.updateRenewalStarted(policyId, bool).toPromise();;
   }
 
-  onInsertSubmit(insertForm: FormGroup){
-    console.log(insertForm);
-    let a = 1;
+  async onInsertSubmit(insertForm: FormGroup) {
+    const form = insertForm.value;
+    if (form.additionalInfo.length > 0 && form.name.length > 0 && form.insurer > 0 && form.startDate.length > 0 && form.endDate.length > 0 && form.additionalInfo.length > 0) {
+      this.displayAlert = false;
+      const dateStart = new Date(form.startDate.year, form.startDate.month, form.startDate.day);
+      const dateEnd = new Date(form.endDate.year, form.endDate.month, form.endDate.day);
+      await this.policyService.addPolicy(form.name, form.additionalInfo, dateStart, dateEnd, form.insurer, this.file as string, this.fileName).toPromise();
+      insertForm.reset();
+    } else {
+      this.displayAlert = true;
+    }
+  }
+
+  handleUpload(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.file = (reader.result as string).split(';base64,')[1];
+      this.fileName = file.name;
+    };
+  }
+
+  close() {
+    this.displayAlert = false;
+  }
+
+  closeQueryCurrent() {
+    this.displayQueryCurrent = false;
+  }
+
+  closeQueryAll() {
+    this.displayQueryAll = false;
   }
 }

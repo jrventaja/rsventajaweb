@@ -53,6 +53,23 @@ export class PolicyService {
       .post<boolean>('https://localhost:44350/api/Policy/updateRenewal', JSON.stringify(paramsObject), this._httpOptions);
   }
 
+  addPolicy(name: string, additionalInfo: string, startDate: Date, endDate: Date, insurerId: number, file: string, fileName: string) {
+    const params = new HttpParams()
+    .set('Name', name)
+    .set('AdditionalInfo', additionalInfo)
+    .set('StartDate', startDate.toDateString())
+    .set('EndDate', endDate.toDateString())
+    .set('InsurerId', insurerId.toString())
+    .set('File', file)
+    .set('FileName', fileName);
+    const paramsObject = params.keys().reduce((object, key) => {
+        object[key] = params.get(key)
+        return object
+    }, {})
+    return this.httpClient
+      .post('https://localhost:44350/api/Policy/new', JSON.stringify(paramsObject), this._httpOptions);
+  }
+
   private extractData(res: any): any {
     const body = res;
     return body || {};

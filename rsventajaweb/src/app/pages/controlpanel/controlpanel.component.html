@@ -60,6 +60,7 @@
     <ngb-tab title="Buscar apólices vigentes">
       <ng-template ngbTabContent>
         <div class="content container-fluid">
+          <ngb-alert *ngIf="displayQueryCurrent" (close)="closeQueryCurrent()">Favor preencher o nome para realizar a busca.</ngb-alert>
           <h3>Buscar apólices vigentes</h3><br>
           <form [formGroup]="queryCurrentForm" style="text-align: center"
             (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
@@ -97,6 +98,7 @@
     <ngb-tab title="Buscar apólices">
       <ng-template ngbTabContent>
         <div class="content container-fluid">
+          <ngb-alert *ngIf="displayQueryAll" (close)="closeQueryAll()">Favor preencher o nome para realizar a busca.</ngb-alert>
           <h3>Buscar apólices</h3><br>
           <form [formGroup]="queryForm" style="text-align: center" (ngSubmit)="onPoliciesSubmit(queryForm)">
             <label for="user">Digite parte ou o nome do cliente</label><br>
@@ -131,25 +133,25 @@
     <ngb-tab title="Cadastrar apólice">
       <ng-template ngbTabContent>
         <div class="content container-fluid">
+          <ngb-alert *ngIf="displayAlert" (close)="close()">Favor preencher todos os campos antes de prosseguir!</ngb-alert>
+          <h3>Cadastrar apólice</h3><br>
           <form [formGroup]="insertForm" (ngSubmit)="onInsertSubmit(insertForm)">
             <label for="name">Nome do proponente</label>
             <input type="text" id="name" name="name" formControlName="name"><br>
             <label for="insurer">Seguradora</label>
-            <select id="insurer" name="insurer">
-              <ng-container *ngFor="let insurer of insurers$ | async">
-                <option value="insurer.id">{{ insurer.name }}</option>
-              </ng-container>
+            <select id="insurer" name="insurer" formControlName="insurer">
+              <option *ngFor="let insurer of insurers$ | async" [value]="insurer.id">{{ insurer.name }}</option>
             </select><br><br>
             <label for="additionalInfo">Informações adicionais<br>(placa ou tipo de seguro)</label>
             <input type="text" id="additionalInfo" name="additionalInfo" formControlName="additionalInfo"><br><br>
             <label for="startDate">Data de início de vigência</label>
-            <input class="form-control" placeholder="aaaa-mm-dd" name="startDate" formControlName="startDate" ngbDatepicker
-              #v="ngbDatepicker" (click)="v.toggle()"><br>
+            <input class="form-control" placeholder="aaaa-mm-dd" name="startDate" formControlName="startDate"
+              ngbDatepicker #v="ngbDatepicker" (click)="v.toggle()"><br>
             <label for="startDate">Data de fim de vigência</label>
             <input class="form-control" placeholder="aaaa-mm-dd" name="endDate" formControlName="endDate" ngbDatepicker
               #i="ngbDatepicker" (click)="i.toggle()"><br>
             <label for="file">Arquivo</label>
-            <input type="file" id="file" name="file" formControlName="file"><br>
+            <input type="file" style="font-size: 12px;" id="file" name="file" formControlName="file" (change)="handleUpload($event)"><br>
             <input type="submit" value="Cadastrar">
           </form>
         </div>
