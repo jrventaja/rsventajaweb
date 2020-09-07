@@ -5,11 +5,12 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserToken } from '../model/usertoken.model';
 import { Policy } from '../model/policy.model';
 import { FileResponse } from '../model/fileresponse.model';
+import { Insurer } from '../model/insurer.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PolicyService {
+export class InsurerService {
 
   constructor(
     private httpClient: HttpClient,
@@ -26,31 +27,9 @@ export class PolicyService {
     })
   };
 
-  getDuePolicies() {
+  getInsurers() {
     return this.httpClient
-      .get<Policy[]>('https://localhost:44350/api/Policy/duePolicies', this._httpOptions);
-  }
-
-  getPoliciesQuery(query: string, currentOnly: boolean) {
-    return this.httpClient
-      .get<Policy[]>(`https://localhost:44350/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
-  }
-
-  getPolicyFile(policyId: number) {
-    return this.httpClient
-      .get<FileResponse>(`https://localhost:44350/api/Policy/${policyId}/download`, this._httpOptions);
-  }
-
-  updateRenewalStarted(policyId: number, status: boolean) {
-    const params = new HttpParams()
-    .set('PolicyId', policyId.toString())
-    .set('Status', status.toString());
-    const paramsObject = params.keys().reduce((object, key) => {
-        object[key] = params.get(key)
-        return object
-    }, {})
-    return this.httpClient
-      .post<boolean>('https://localhost:44350/api/Policy/updateRenewal', JSON.stringify(paramsObject), this._httpOptions);
+      .get<Insurer[]>('https://localhost:44350/api/Insurer', this._httpOptions);
   }
 
   private extractData(res: any): any {

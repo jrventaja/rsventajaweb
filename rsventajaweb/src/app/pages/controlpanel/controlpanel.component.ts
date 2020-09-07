@@ -4,6 +4,10 @@ import { Observable, Subject } from 'rxjs';
 import { PolicyService } from 'src/app/services/policy.service';
 import { Policy } from 'src/app/model/policy.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Insurer } from 'src/app/model/insurer.model';
+import { InsurerService } from 'src/app/services/insurer.service';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-controlpanel',
@@ -16,14 +20,26 @@ export class ControlpanelComponent implements OnInit {
   queryCurrentPolicies$: Observable<Policy[]>;
   queryCurrentForm: FormGroup;
   queryPolicies$: Observable<Policy[]>;
+  insurers$: Observable<Insurer[]>;
   queryForm: FormGroup;
+  insertForm: FormGroup;
+  model: NgbDateStruct;
+  faCalendar = faCalendar;
   constructor(private securityService: SecurityService, private formBuilder: FormBuilder,
-    private policyService: PolicyService) {
+    private policyService: PolicyService, private insurerService: InsurerService) {
       this.queryCurrentForm = this.formBuilder.group({
         query: ''
       });
       this.queryForm = this.formBuilder.group({
         query: ''
+      });
+      this.insertForm = this.formBuilder.group({
+        name: '',
+        insurer: 0,
+        additionalInfo: '',
+        startDate: '',
+        endDate: '',
+        file: ''
       });
     }
 
@@ -34,6 +50,7 @@ export class ControlpanelComponent implements OnInit {
 
   loadData() {
     this.policies$ = this.policyService.getDuePolicies();
+    this.insurers$ = this.insurerService.getInsurers();
   }
 
   calculateDays(endDate: Date): number {
@@ -67,5 +84,15 @@ export class ControlpanelComponent implements OnInit {
   onPoliciesSubmit(queryForm: FormGroup) {
     this.queryPolicies$ = this.policyService.getPoliciesQuery(queryForm.value.query, false);
     this.queryForm.reset();
+  }
+
+  async updateRenewalStarted(policyId: number, evt) {
+    let bool = evt.target.checked;
+    await this.policyService.updateRenewalStarted(policyId, bool).toPromise();;
+  }
+
+  onInsertSubmit(insertForm: FormGroup){
+    console.log(insertForm);
+    let a = 1;
   }
 }

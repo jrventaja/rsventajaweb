@@ -66,3 +66,12 @@ th, td {
   padding: 14px;
   text-align: center;
 }
+
+form {
+  display: grid;
+  
+}
+
+input, label{
+  text-align: center;
+}

@@ -30,6 +30,7 @@
           <table class="table table-striped" style="text-align: center;">
             <thead>
               <tr>
+                <th scope="col">Renovação calculada</th>
                 <th scope="col">Dias Restantes</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Seguradora</th>
@@ -41,6 +42,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let policy of policies$ | async">
+                <th><input type="checkbox" [checked]="policy.renewalStarted"
+                    (click)="updateRenewalStarted(policy.policyId, $event)" /></th>
                 <th>{{ calculateDays(policy.endDate) }}</th>
                 <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
                 <td>{{ policy.insurer }}</td>
@@ -58,9 +61,10 @@
       <ng-template ngbTabContent>
         <div class="content container-fluid">
           <h3>Buscar apólices vigentes</h3><br>
-          <form [formGroup]="queryCurrentForm" style="text-align: center" (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
+          <form [formGroup]="queryCurrentForm" style="text-align: center"
+            (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
             <label for="user">Digite parte ou o nome do cliente</label><br>
-            <input type="text" style="text-align: center" id="query" name="query" formControlName="query"><br><br>
+            <input type="text" style="text-align: center" id="query1" name="query" formControlName="query"><br><br>
             <input type="submit" value="Buscar">
           </form><br><br>
           <table class="table table-striped" style="text-align: center;">
@@ -96,7 +100,7 @@
           <h3>Buscar apólices</h3><br>
           <form [formGroup]="queryForm" style="text-align: center" (ngSubmit)="onPoliciesSubmit(queryForm)">
             <label for="user">Digite parte ou o nome do cliente</label><br>
-            <input type="text" style="text-align: center" id="query" name="query" formControlName="query"><br><br>
+            <input type="text" style="text-align: center" id="query2" name="query" formControlName="query"><br><br>
             <input type="submit" value="Buscar">
           </form><br><br>
           <table class="table table-striped" style="text-align: center;">
@@ -121,6 +125,33 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Cadastrar apólice">
+      <ng-template ngbTabContent>
+        <div class="content container-fluid">
+          <form [formGroup]="insertForm" (ngSubmit)="onInsertSubmit(insertForm)">
+            <label for="name">Nome do proponente</label>
+            <input type="text" id="name" name="name" formControlName="name"><br>
+            <label for="insurer">Seguradora</label>
+            <select id="insurer" name="insurer">
+              <ng-container *ngFor="let insurer of insurers$ | async">
+                <option value="insurer.id">{{ insurer.name }}</option>
+              </ng-container>
+            </select><br><br>
+            <label for="additionalInfo">Informações adicionais<br>(placa ou tipo de seguro)</label>
+            <input type="text" id="additionalInfo" name="additionalInfo" formControlName="additionalInfo"><br><br>
+            <label for="startDate">Data de início de vigência</label>
+            <input class="form-control" placeholder="aaaa-mm-dd" name="startDate" formControlName="startDate" ngbDatepicker
+              #v="ngbDatepicker" (click)="v.toggle()"><br>
+            <label for="startDate">Data de fim de vigência</label>
+            <input class="form-control" placeholder="aaaa-mm-dd" name="endDate" formControlName="endDate" ngbDatepicker
+              #i="ngbDatepicker" (click)="i.toggle()"><br>
+            <label for="file">Arquivo</label>
+            <input type="file" id="file" name="file" formControlName="file"><br>
+            <input type="submit" value="Cadastrar">
+          </form>
         </div>
       </ng-template>
     </ngb-tab>
