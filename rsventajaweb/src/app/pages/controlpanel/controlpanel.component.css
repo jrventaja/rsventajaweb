@@ -1,3 +1,12 @@
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .navbar {
   font-size: 18px;
   position: fixed;
@@ -26,19 +35,26 @@ table {
   color: #fff !important;
 }
 
-.contain {
-  max-width: 1170px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1em;
+li a:hover {
+  background-color: gray;
 }
 
+li{
+  padding: 0.5em;
+}
 .content {
-  display: flex;
-  margin: 82px auto 32px;
-  padding: 0 16px;
+  padding: 2.5em;
+  margin: 60px auto 32px;
   flex-direction: column;
   align-items: center;
+}
+
+.content2 {
+  max-width:500px;
+  flex-direction: column;
+  margin: 82px auto 32px;
+  align-items: center;
+  padding: 2.5em;
 }
 
 .jumbotron {

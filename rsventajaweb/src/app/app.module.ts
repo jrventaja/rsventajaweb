@@ -23,6 +23,7 @@ import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatTabsModule} from '@angular/material/tabs';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 registerLocaleData(localePt);
 
@@ -51,7 +52,8 @@ registerLocaleData(localePt);
     NgxMatFileInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    FlexLayoutModule
   ],
   providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'}],
   bootstrap: [AppComponent]

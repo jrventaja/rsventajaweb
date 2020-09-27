@@ -24,9 +24,9 @@
 <ng-container *ngIf="signedin">
   <mat-tab-group>
     <mat-tab label="Apólices a vencer">
-      <div class="content container-fluid">
+      <div *ngIf="policies$ | async as pols" class="content container-fluid">
         <h2>Apólices com vencimento nos próximos 30 dias</h2><br>
-        <table mat-table [dataSource]="policies$ | async" class="mat-elevation-z8">
+        <table mat-table [dataSource]="pols" class="mat-elevation-z2">
           <ng-container matColumnDef="renewal">
             <th mat-header-cell *matHeaderCellDef>Calculado?</th>
             <td mat-cell *matCellDef="let element"> <input type="checkbox" [checked]="element.renewalStarted"
@@ -78,20 +78,22 @@
       </div>
     </mat-tab>
     <mat-tab label="Buscar apólices vigentes">
-      <div class="content container-fluid">
+      <div class="content container-fluid contain">
         <ngb-alert *ngIf="displayQueryCurrent" (close)="closeQueryCurrent()">Favor preencher o nome para realizar a
           busca.</ngb-alert>
         <h2>Buscar apólices vigentes</h2><br>
-        <form [formGroup]="queryCurrentForm" style="text-align: center"
-          (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
-          <mat-form-field appearance="fill">
-            <mat-label>Digite parte ou o nome do cliente</mat-label>
-            <input matInput type="text" formControlName="query">
-          </mat-form-field>
-          <br>
-          <button mat-raised-button color="primary" type="submit">Buscar</button>
+        <form [formGroup]="queryCurrentForm" (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
+          <div fxLayout="column" fxLayoutAlign="start start">
+            <mat-form-field style="width:400px !important" appearance="fill">
+              <mat-label>Digite parte ou o nome do cliente</mat-label>
+              <input matInput type="text" formControlName="query">
+            </mat-form-field>
+            <div style="padding-left: 0.5em">
+              <button mat-raised-button color="primary" type="submit">Buscar</button>
+            </div>
+          </div>
         </form><br><br>
-        <table mat-table [dataSource]="queryCurrentPolicies$ | async" class="mat-elevation-z8">
+        <table *ngIf="queryCurrentPolicies$ | async as cpols" mat-table [dataSource]="cpols" class="mat-elevation-z2">
           <ng-container matColumnDef="days">
             <th mat-header-cell *matHeaderCellDef>Dias Restantes</th>
             <td mat-cell *matCellDef="let element"> {{ calculateDays(element.endDate) }} </td>
@@ -138,19 +140,22 @@
       </div>
     </mat-tab>
     <mat-tab label="Buscar apólices">
-      <div class="content container-fluid">
+      <div class="content container-fluid contain">
         <ngb-alert *ngIf="displayQueryAll" (close)="closeQueryAll()">Favor preencher o nome para realizar a busca.
         </ngb-alert>
         <h2>Buscar apólices</h2><br>
         <form [formGroup]="queryForm" style="text-align: center" (ngSubmit)="onPoliciesSubmit(queryForm)">
-          <mat-form-field appearance="fill">
-            <mat-label>Digite parte ou o nome do cliente</mat-label>
-            <input matInput type="text" formControlName="query">
-          </mat-form-field>
-          <br>
-          <button mat-raised-button color="primary" type="submit">Buscar</button>
+          <div fxLayout="column" fxLayoutAlign="start start">
+            <mat-form-field style="width:400px !important" fxFlex appearance="fill">
+              <mat-label>Digite parte ou o nome do cliente</mat-label>
+              <input matInput type="text" formControlName="query">
+            </mat-form-field>
+            <div style="padding-left: 0.5em;">
+              <button mat-raised-button color="primary" type="submit">Buscar</button>
+            </div>
+          </div>
         </form><br><br>
-        <table mat-table [dataSource]="queryPolicies$ | async" class="mat-elevation-z8">
+        <table *ngIf="queryPolicies$ | async as apols" mat-table [dataSource]="apols" class="mat-elevation-z2">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nome</th>
             <td mat-cell *matCellDef="let element">
@@ -193,18 +198,18 @@
       </div>
     </mat-tab>
     <mat-tab label="Cadastrar apólice">
-      <div class="content container-fluid contain">
+      <div class="content2 container-fluid contain mat-elevation-z2">
         <ngb-alert *ngIf="displayAlert" (close)="close()">Favor preencher todos os campos antes de prosseguir!
+        </ngb-alert>
+        <ngb-alert type="success" *ngIf="displaySuccess" (close)="close()">Cadastro realizado com sucesso!
         </ngb-alert>
         <h2>Cadastrar apólice</h2><br>
         <form [formGroup]="insertForm" (ngSubmit)="onInsertSubmit(insertForm)">
-          <p>
+          <div fxLayout="column">
             <mat-form-field class="full-width" appearance="fill">
               <mat-label>Nome do proponente</mat-label>
               <input matInput type="text" formControlName="name">
             </mat-form-field>
-          </p>
-          <p>
             <mat-form-field class="full-width" appearance="fill">
               <mat-label>Seguradora</mat-label>
               <mat-select formControlName="insurer">
@@ -212,14 +217,10 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </p>
-          <p>
             <mat-form-field class="full-width" appearance="fill">
               <mat-label>Informações adicionais</mat-label>
               <input matInput type="text" maxlength="50" formControlName="additionalInfo">
             </mat-form-field>
-          </p>
-          <p>
             <mat-form-field appearance="fill">
               <mat-label>Data de <b>início</b> de vigência</mat-label>
               <input matInput [matDatepicker]="picker" formControlName="startDate">
@@ -232,17 +233,14 @@
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field class="full-width" appearance="fill">
-              <ngx-mat-file-input formControlName="file" (change)="handleUpload()">
-              </ngx-mat-file-input>
-
-            </mat-form-field>
-          </p>
-          <p>
+            <div fxLayout="row" fxLayoutAlign="space-evenly center">
+              <mat-form-field class="full-width" appearance="fill">
+                <ngx-mat-file-input valuePlaceholder="danger" formControlName="file" (change)="handleUpload()">
+                </ngx-mat-file-input>
+              </mat-form-field>
+            </div>
             <button class="full-width" mat-raised-button color="primary" type="submit">Cadastrar</button>
-          </p>
+          </div>
         </form>
       </div>
     </mat-tab>

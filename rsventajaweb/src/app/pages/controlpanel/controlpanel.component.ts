@@ -31,7 +31,8 @@ export class ControlpanelComponent implements OnInit {
   fileName: string;
   faCalendar = faCalendar;
   displayAlert = false;
-  danger: 'danger';
+  displaySuccess = false;
+  danger: 'Alertando aos usuarios';
   displayQueryCurrent = false;
   displayQueryAll = false;
   constructor(private securityService: SecurityService, private formBuilder: FormBuilder,
@@ -114,8 +115,9 @@ export class ControlpanelComponent implements OnInit {
     const form = insertForm.value;
     if (form.additionalInfo.length > 0 && form.name.length > 0 && form.insurer > 0 && form.startDate && form.endDate && form.additionalInfo.length > 0) {
       this.displayAlert = false;
-      await this.policyService.addPolicy(form.name, form.additionalInfo, form.startDate, form.endDate, form.insurer, this.file as string, this.fileName).toPromise();
-      insertForm.reset();
+      await this.policyService.addPolicy(form.name.toUpperCase(), form.additionalInfo.toUpperCase(), form.startDate, form.endDate, form.insurer, this.file as string, this.fileName).toPromise();
+      insertForm.reset();      
+      this.displaySuccess = true;
     } else {
       this.displayAlert = true;
     }
@@ -133,6 +135,7 @@ export class ControlpanelComponent implements OnInit {
 
   close() {
     this.displayAlert = false;
+    this.displaySuccess = false;
   }
 
   closeQueryCurrent() {
