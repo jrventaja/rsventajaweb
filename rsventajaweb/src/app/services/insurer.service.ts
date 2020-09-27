@@ -29,7 +29,7 @@ export class InsurerService {
 
   getInsurers() {
     return this.httpClient
-      .get<Insurer[]>('https://localhost:44350/api/Insurer', this._httpOptions);
+      .get<Insurer[]>('http://rsventaja.com:8080/api/Insurer', this._httpOptions);
   }
 
   private extractData(res: any): any {

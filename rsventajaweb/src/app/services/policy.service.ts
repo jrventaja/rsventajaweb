@@ -28,17 +28,17 @@ export class PolicyService {
 
   getDuePolicies() {
     return this.httpClient
-      .get<Policy[]>('https://localhost:44350/api/Policy/duePolicies', this._httpOptions);
+      .get<Policy[]>('http://rsventaja.com:8080/api/Policy/duePolicies', this._httpOptions);
   }
 
   getPoliciesQuery(query: string, currentOnly: boolean) {
     return this.httpClient
-      .get<Policy[]>(`https://localhost:44350/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
+      .get<Policy[]>(`http://rsventaja.com:8080/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
   }
 
   getPolicyFile(policyId: number) {
     return this.httpClient
-      .get<FileResponse>(`https://localhost:44350/api/Policy/${policyId}/download`, this._httpOptions);
+      .get<FileResponse>(`http://rsventaja.com:8080/api/Policy/${policyId}/download`, this._httpOptions);
   }
 
   updateRenewalStarted(policyId: number, status: boolean) {
@@ -50,7 +50,7 @@ export class PolicyService {
         return object
     }, {})
     return this.httpClient
-      .post<boolean>('https://localhost:44350/api/Policy/updateRenewal', JSON.stringify(paramsObject), this._httpOptions);
+      .post<boolean>('http://rsventaja.com:8080/api/Policy/updateRenewal', JSON.stringify(paramsObject), this._httpOptions);
   }
 
   addPolicy(name: string, additionalInfo: string, startDate: Date, endDate: Date, insurerId: number, file: string, fileName: string) {
@@ -67,7 +67,7 @@ export class PolicyService {
         return object
     }, {})
     return this.httpClient
-      .post('https://localhost:44350/api/Policy/new', JSON.stringify(paramsObject), this._httpOptions);
+      .post('http://rsventaja.com:8080/api/Policy/new', JSON.stringify(paramsObject), this._httpOptions);
   }
 
   private extractData(res: any): any {
