@@ -15,6 +15,9 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./controlpanel.component.css']
 })
 export class ControlpanelComponent implements OnInit {
+  displayedColumns: string[] = ['renewal', 'days', 'name', 'insurer', 'additional', 'start', 'end', 'download'];
+  displayedColumnsCurrent: string[] = ['days', 'name', 'insurer', 'additional', 'start', 'end', 'download'];  
+  displayedColumnsAll: string[] = ['name', 'insurer', 'additional', 'start', 'end', 'download'];
   signedin: boolean = false;
   policies$: Observable<Policy[]>;
   queryCurrentPolicies$: Observable<Policy[]>;
@@ -43,8 +46,8 @@ export class ControlpanelComponent implements OnInit {
       name: '',
       insurer: 0,
       additionalInfo: '',
-      startDate: '',
-      endDate: '',
+      startDate: null,
+      endDate: null,
       file: ''
     });
   }
@@ -109,19 +112,17 @@ export class ControlpanelComponent implements OnInit {
 
   async onInsertSubmit(insertForm: FormGroup) {
     const form = insertForm.value;
-    if (form.additionalInfo.length > 0 && form.name.length > 0 && form.insurer > 0 && form.startDate.length > 0 && form.endDate.length > 0 && form.additionalInfo.length > 0) {
+    if (form.additionalInfo.length > 0 && form.name.length > 0 && form.insurer > 0 && form.startDate && form.endDate && form.additionalInfo.length > 0) {
       this.displayAlert = false;
-      const dateStart = new Date(form.startDate.year, form.startDate.month, form.startDate.day);
-      const dateEnd = new Date(form.endDate.year, form.endDate.month, form.endDate.day);
-      await this.policyService.addPolicy(form.name, form.additionalInfo, dateStart, dateEnd, form.insurer, this.file as string, this.fileName).toPromise();
+      await this.policyService.addPolicy(form.name, form.additionalInfo, form.startDate, form.endDate, form.insurer, this.file as string, this.fileName).toPromise();
       insertForm.reset();
     } else {
       this.displayAlert = true;
     }
   }
 
-  handleUpload(event) {
-    const file = event.target.files[0];
+  handleUpload() {
+    const file = this.insertForm.value.file;
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {

@@ -13,6 +13,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatTabsModule} from '@angular/material/tabs';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { MatNativeDateModule } from '@angular/material/core';
+
 registerLocaleData(localePt);
 
 @NgModule({
@@ -30,7 +41,17 @@ registerLocaleData(localePt);
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSelectModule,
+    NgxMatFileInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTabsModule
   ],
   providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'}],
   bootstrap: [AppComponent]

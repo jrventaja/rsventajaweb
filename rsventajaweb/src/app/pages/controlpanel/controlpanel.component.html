@@ -22,153 +22,229 @@
 
 </div>
 <ng-container *ngIf="signedin">
-  <ngb-tabset [destroyOnHide]="false">
-    <ngb-tab title="Apólices a vencer">
-      <ng-template ngbTabContent>
-        <div class="content container-fluid">
-          <h3>Apólices com vencimento nos próximos 30 dias</h3><br>
-          <table class="table table-striped" style="text-align: center;">
-            <thead>
-              <tr>
-                <th scope="col">Renovação calculada</th>
-                <th scope="col">Dias Restantes</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Seguradora</th>
-                <th scope="col">Informações Adicionais</th>
-                <th scope="col">Início</th>
-                <th scope="col">Vencimento</th>
-                <th scope="col">Download</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let policy of policies$ | async">
-                <th><input type="checkbox" [checked]="policy.renewalStarted"
-                    (click)="updateRenewalStarted(policy.policyId, $event)" /></th>
-                <th>{{ calculateDays(policy.endDate) }}</th>
-                <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
-                <td>{{ policy.insurer }}</td>
-                <td>{{ policy.additionalInfo }}</td>
-                <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
-                <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
-                <td><button on-click="download(policy.policyId)">Download</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Buscar apólices vigentes">
-      <ng-template ngbTabContent>
-        <div class="content container-fluid">
-          <ngb-alert *ngIf="displayQueryCurrent" (close)="closeQueryCurrent()">Favor preencher o nome para realizar a
-            busca.</ngb-alert>
-          <h3>Buscar apólices vigentes</h3><br>
-          <form [formGroup]="queryCurrentForm" style="text-align: center"
-            (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
-            <p class="full-width">
-              <label for="user">Digite parte ou o nome do cliente</label><br>
-              <input type="text" style="text-align: center" id="query1" name="query" formControlName="query"><br><br>
-              <input type="submit" value="Buscar">
-            </p>
-          </form><br><br>
-          <table class="table table-striped" style="text-align: center;">
-            <thead>
-              <tr>
-                <th scope="col">Dias Restantes</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Seguradora</th>
-                <th scope="col">Informações Adicionais</th>
-                <th scope="col">Início</th>
-                <th scope="col">Vencimento</th>
-                <th scope="col">Download</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let policy of queryCurrentPolicies$ | async">
-                <th>{{ calculateDays(policy.endDate) }}</th>
-                <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
-                <td>{{ policy.insurer }}</td>
-                <td>{{ policy.additionalInfo }}</td>
-                <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
-                <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
-                <td><button on-click="download(policy.policyId)">Download</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Buscar apólices">
-      <ng-template ngbTabContent>
-        <div class="content container-fluid">
-          <ngb-alert *ngIf="displayQueryAll" (close)="closeQueryAll()">Favor preencher o nome para realizar a busca.
-          </ngb-alert>
-          <h3>Buscar apólices</h3><br>
+  <mat-tab-group>
+    <mat-tab label="Apólices a vencer">
+      <div class="content container-fluid">
+        <h2>Apólices com vencimento nos próximos 30 dias</h2><br>
+        <table mat-table [dataSource]="policies$ | async" class="mat-elevation-z8">
+          <ng-container matColumnDef="renewal">
+            <th mat-header-cell *matHeaderCellDef>Calculado?</th>
+            <td mat-cell *matCellDef="let element"> <input type="checkbox" [checked]="element.renewalStarted"
+                (click)="updateRenewalStarted(element.policyId, $event)" /> </td>
+          </ng-container>
+          <ng-container matColumnDef="days">
+            <th mat-header-cell *matHeaderCellDef>Dias Restantes</th>
+            <td mat-cell *matCellDef="let element"> {{ calculateDays(element.endDate) }} </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.customerName.firstName }} {{ element.customerName.lastName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="insurer">
+            <th mat-header-cell *matHeaderCellDef>Seguradora</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.insurer }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="additional">
+            <th mat-header-cell *matHeaderCellDef>Informações Adicionais</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.additionalInfo }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="start">
+            <th mat-header-cell *matHeaderCellDef>Início</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.startDate | date:'shortDate':'':'pt-BR' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="end">
+            <th mat-header-cell *matHeaderCellDef>Vencimento</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.endDate | date:'shortDate':'':'pt-BR' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="download">
+            <th mat-header-cell *matHeaderCellDef>Download</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-flat-button color="primary" on-click="download(element.policyId)">Download</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Buscar apólices vigentes">
+      <div class="content container-fluid">
+        <ngb-alert *ngIf="displayQueryCurrent" (close)="closeQueryCurrent()">Favor preencher o nome para realizar a
+          busca.</ngb-alert>
+        <h2>Buscar apólices vigentes</h2><br>
+        <form [formGroup]="queryCurrentForm" style="text-align: center"
+          (ngSubmit)="onCurrentPoliciesSubmit(queryCurrentForm)">
+          <mat-form-field appearance="fill">
+            <mat-label>Digite parte ou o nome do cliente</mat-label>
+            <input matInput type="text" formControlName="query">
+          </mat-form-field>
+          <br>
+          <button mat-raised-button color="primary" type="submit">Buscar</button>
+        </form><br><br>
+        <table mat-table [dataSource]="queryCurrentPolicies$ | async" class="mat-elevation-z8">
+          <ng-container matColumnDef="days">
+            <th mat-header-cell *matHeaderCellDef>Dias Restantes</th>
+            <td mat-cell *matCellDef="let element"> {{ calculateDays(element.endDate) }} </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.customerName.firstName }} {{ element.customerName.lastName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="insurer">
+            <th mat-header-cell *matHeaderCellDef>Seguradora</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.insurer }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="additional">
+            <th mat-header-cell *matHeaderCellDef>Informações Adicionais</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.additionalInfo }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="start">
+            <th mat-header-cell *matHeaderCellDef>Início</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.startDate | date:'shortDate':'':'pt-BR' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="end">
+            <th mat-header-cell *matHeaderCellDef>Vencimento</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.endDate | date:'shortDate':'':'pt-BR' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="download">
+            <th mat-header-cell *matHeaderCellDef>Download</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-flat-button color="primary" on-click="download(element.policyId)">Download</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsCurrent"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsCurrent;"></tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Buscar apólices">
+      <div class="content container-fluid">
+        <ngb-alert *ngIf="displayQueryAll" (close)="closeQueryAll()">Favor preencher o nome para realizar a busca.
+        </ngb-alert>
+        <h2>Buscar apólices</h2><br>
+        <form [formGroup]="queryForm" style="text-align: center" (ngSubmit)="onPoliciesSubmit(queryForm)">
+          <mat-form-field appearance="fill">
+            <mat-label>Digite parte ou o nome do cliente</mat-label>
+            <input matInput type="text" formControlName="query">
+          </mat-form-field>
+          <br>
+          <button mat-raised-button color="primary" type="submit">Buscar</button>
+        </form><br><br>
+        <table mat-table [dataSource]="queryPolicies$ | async" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.customerName.firstName }} {{ element.customerName.lastName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="insurer">
+            <th mat-header-cell *matHeaderCellDef>Seguradora</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.insurer }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="additional">
+            <th mat-header-cell *matHeaderCellDef>Informações Adicionais</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.additionalInfo }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="start">
+            <th mat-header-cell *matHeaderCellDef>Início</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.startDate | date:'shortDate':'':'pt-BR' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="end">
+            <th mat-header-cell *matHeaderCellDef>Vencimento</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.endDate | date:'shortDate':'':'pt-BR' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="download">
+            <th mat-header-cell *matHeaderCellDef>Download</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-flat-button color="primary" on-click="download(element.policyId)">Download</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsAll"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsAll;"></tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Cadastrar apólice">
+      <div class="content container-fluid contain">
+        <ngb-alert *ngIf="displayAlert" (close)="close()">Favor preencher todos os campos antes de prosseguir!
+        </ngb-alert>
+        <h2>Cadastrar apólice</h2><br>
+        <form [formGroup]="insertForm" (ngSubmit)="onInsertSubmit(insertForm)">
+          <p>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Nome do proponente</mat-label>
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Seguradora</mat-label>
+              <mat-select formControlName="insurer">
+                <mat-option *ngFor="let insurer of insurers$ | async" [value]="insurer.id">{{ insurer.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Informações adicionais</mat-label>
+              <input matInput type="text" maxlength="50" formControlName="additionalInfo">
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="fill">
+              <mat-label>Data de <b>início</b> de vigência</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="startDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Data de <b>fim</b> de vigência</mat-label>
+              <input matInput [matDatepicker]="picker2" formControlName="endDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field class="full-width" appearance="fill">
+              <ngx-mat-file-input formControlName="file" (change)="handleUpload()">
+              </ngx-mat-file-input>
 
-          <form [formGroup]="queryForm" style="text-align: center" (ngSubmit)="onPoliciesSubmit(queryForm)">
-            <p class="full-width"><label for="user">Digite parte ou o nome do cliente</label><br>
-              <input type="text" style="text-align: center" id="query2" name="query" formControlName="query"><br><br>
-              <input type="submit" value="Buscar">
-            </p>
-          </form>
-          <br><br>
-          <table class="table table-striped" style="text-align: center;">
-            <thead>
-              <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Seguradora</th>
-                <th scope="col">Informações Adicionais</th>
-                <th scope="col">Início</th>
-                <th scope="col">Vencimento</th>
-                <th scope="col">Download</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let policy of queryPolicies$ | async">
-                <td>{{ policy.customerName.firstName }} {{ policy.customerName.lastName }}</td>
-                <td>{{ policy.insurer }}</td>
-                <td>{{ policy.additionalInfo }}</td>
-                <td>{{ policy.startDate | date:'shortDate':'':'pt-BR' }}</td>
-                <td>{{ policy.endDate | date:'shortDate':'':'pt-BR' }}</td>
-                <td><button on-click="download(policy.policyId)">Download</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Cadastrar apólice">
-      <ng-template ngbTabContent>
-        <div class="content container-fluid contain">
-          <ngb-alert *ngIf="displayAlert" (close)="close()">Favor preencher todos os campos antes de prosseguir!
-          </ngb-alert>
-          <h3>Cadastrar apólice</h3><br>
-          <form [formGroup]="insertForm" (ngSubmit)="onInsertSubmit(insertForm)">
-            <p><label for="name">Nome do proponente</label>
-              <input type="text" id="name" name="name" formControlName="name"></p>
-            <p><label for="additionalInfo">Informações adicionais</label>
-              <input type="text" id="additionalInfo" placeholder="placa, tipo de seguro, etc." name="additionalInfo"
-                formControlName="additionalInfo"></p>
-            <p class="full-width"><label for="insurer">Seguradora</label>
-              <select id="insurer" name="insurer" formControlName="insurer">
-                <option *ngFor="let insurer of insurers$ | async" [value]="insurer.id">{{ insurer.name }}</option>
-              </select></p>
-
-            <p><label for="startDate">Data de <b>início</b> de vigência</label>
-              <input class="form-control" placeholder="aaaa-mm-dd" name="startDate" formControlName="startDate"
-                ngbDatepicker #v="ngbDatepicker" (click)="v.toggle()"></p>
-            <p><label for="startDate">Data de <b>fim</b> de vigência</label>
-              <input class="form-control" placeholder="aaaa-mm-dd" name="endDate" formControlName="endDate"
-                ngbDatepicker #i="ngbDatepicker" (click)="i.toggle()"></p>
-            <p class="full-width">
-              <label for="file">Arquivo</label>
-              <input type="file" style="font-size: 12px;" id="file" name="file" formControlName="file"
-                (change)="handleUpload($event)"></p>
-            <p class="full-width"><input type="submit" value="Cadastrar"></p>
-
-          </form>
-        </div>
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
+            </mat-form-field>
+          </p>
+          <p>
+            <button class="full-width" mat-raised-button color="primary" type="submit">Cadastrar</button>
+          </p>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </ng-container>

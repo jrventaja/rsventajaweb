@@ -28,12 +28,21 @@
 </div>
 <div class="content">
     <ngb-alert *ngIf="displayWrongAuth" (close)="closeAuth()">Usuário ou senha incorretos!</ngb-alert>
-    <ngb-alert *ngIf="displayNotFilled" (close)="closeFilled()">Favor preencher todos os campos antes de prosseguir!</ngb-alert>
-    <form [formGroup]="signForm" style = "text-align: center" (ngSubmit)="onSubmit(signForm)">
-        <label for="user">Usuário</label><br>
-        <input type="text" style = "text-align: center" id="user" name="user" formControlName="user"><br><br>
-        <label for="password">Senha</label><br>        
-        <input type="password" id="password" style = "text-align: center" name="password" formControlName="password"><br><br>
-        <input type="submit" value="Entrar">    
-      </form>
+    <ngb-alert *ngIf="displayNotFilled" (close)="closeFilled()">Favor preencher todos os campos antes de prosseguir!
+    </ngb-alert>
+
+    <form [formGroup]="signForm" style="text-align: center" (ngSubmit)="onSubmit(signForm)">
+        <mat-form-field appearance="fill">
+            <mat-label>Usuário</mat-label>
+            <input matInput type="text" formControlName="user">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput formControlName="password">
+        </mat-form-field>
+        <br>
+            <button mat-raised-button color="primary" type="submit">Entrar</button>
+
+    </form>
 </div>
