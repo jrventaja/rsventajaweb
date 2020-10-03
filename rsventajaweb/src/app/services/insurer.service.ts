@@ -6,6 +6,7 @@ import { UserToken } from '../model/usertoken.model';
 import { Policy } from '../model/policy.model';
 import { FileResponse } from '../model/fileresponse.model';
 import { Insurer } from '../model/insurer.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class InsurerService {
 
   getInsurers() {
     return this.httpClient
-      .get<Insurer[]>('http://rsventaja.com:8080/api/Insurer', this._httpOptions);
+      .get<Insurer[]>(`${environment.apiEndpoint}/api/Insurer`, this._httpOptions);
   }
 
   private extractData(res: any): any {

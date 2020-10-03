@@ -30,6 +30,7 @@ export class ControlpanelComponent implements OnInit {
   file: string | ArrayBuffer;
   fileName: string;
   faCalendar = faCalendar;
+  addingPolicy = false;
   displayAlert = false;
   displaySuccess = false;
   danger: 'Alertando aos usuarios';
@@ -112,6 +113,7 @@ export class ControlpanelComponent implements OnInit {
   }
 
   async onInsertSubmit(insertForm: FormGroup) {
+    this.addingPolicy= true;
     const form = insertForm.value;
     if (form.additionalInfo.length > 0 && form.name.length > 0 && form.insurer > 0 && form.startDate && form.endDate && form.additionalInfo.length > 0) {
       this.displayAlert = false;
@@ -121,6 +123,7 @@ export class ControlpanelComponent implements OnInit {
     } else {
       this.displayAlert = true;
     }
+    this.addingPolicy = false;
   }
 
   handleUpload() {

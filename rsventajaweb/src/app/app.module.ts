@@ -24,6 +24,7 @@ import { MatTabsModule} from '@angular/material/tabs';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 registerLocaleData(localePt);
 
@@ -53,7 +54,8 @@ registerLocaleData(localePt);
     MatDatepickerModule,
     MatNativeDateModule,
     MatTabsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatProgressSpinnerModule
   ],
   providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'}],
   bootstrap: [AppComponent]

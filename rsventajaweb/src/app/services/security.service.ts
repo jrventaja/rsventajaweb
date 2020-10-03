@@ -3,7 +3,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserToken } from '../model/usertoken.model';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +32,7 @@ export class SecurityService {
         return object
     }, {})
     return this.httpClient
-      .post<UserToken>('http://rsventaja.com:8080/api/Authentication/token', JSON.stringify(paramsObject), this._httpOptions);
+      .post<UserToken>(`${environment.apiEndpoint}/api/Authentication/token`, JSON.stringify(paramsObject), this._httpOptions);
   }
 
   verifyAuthentication(token: string) {
@@ -43,7 +43,7 @@ export class SecurityService {
         return object
     }, {})
     return this.httpClient
-      .post<UserToken>('http://rsventaja.com:8080/api/Authentication/token/verify', JSON.stringify(paramsObject), this._httpOptions)
+      .post<UserToken>(`${environment.apiEndpoint}/api/Authentication/token/verify`, JSON.stringify(paramsObject), this._httpOptions)
       .pipe(map(this.extractData), catchError(this.handleError.bind(this)));
   }
 

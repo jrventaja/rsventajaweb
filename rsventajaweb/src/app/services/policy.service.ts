@@ -5,6 +5,7 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserToken } from '../model/usertoken.model';
 import { Policy } from '../model/policy.model';
 import { FileResponse } from '../model/fileresponse.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -28,46 +29,40 @@ export class PolicyService {
 
   getDuePolicies() {
     return this.httpClient
-      .get<Policy[]>('http://rsventaja.com:8080/api/Policy/duePolicies', this._httpOptions);
+      .get<Policy[]>(`${environment.apiEndpoint}/api/Policy/duePolicies`, this._httpOptions);
   }
 
   getPoliciesQuery(query: string, currentOnly: boolean) {
     return this.httpClient
-      .get<Policy[]>(`http://rsventaja.com:8080/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
+      .get<Policy[]>(`${environment.apiEndpoint}/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
   }
 
   getPolicyFile(policyId: number) {
     return this.httpClient
-      .get<FileResponse>(`http://rsventaja.com:8080/api/Policy/${policyId}/download`, this._httpOptions);
+      .get<FileResponse>(`${environment.apiEndpoint}/api/Policy/${policyId}/download`, this._httpOptions);
   }
 
   updateRenewalStarted(policyId: number, status: boolean) {
-    const params = new HttpParams()
-    .set('PolicyId', policyId.toString())
-    .set('Status', status.toString());
-    const paramsObject = params.keys().reduce((object, key) => {
-        object[key] = params.get(key)
-        return object
-    }, {})
+    var request = {
+      PolicyId: policyId,
+      Status: status
+    };
     return this.httpClient
-      .post<boolean>('http://rsventaja.com:8080/api/Policy/updateRenewal', JSON.stringify(paramsObject), this._httpOptions);
+      .post<boolean>(`${environment.apiEndpoint}/api/Policy/updateRenewal`, JSON.stringify(request), this._httpOptions);
   }
 
   addPolicy(name: string, additionalInfo: string, startDate: Date, endDate: Date, insurerId: number, file: string, fileName: string) {
-    const params = new HttpParams()
-    .set('Name', name)
-    .set('AdditionalInfo', additionalInfo)
-    .set('StartDate', startDate.toDateString())
-    .set('EndDate', endDate.toDateString())
-    .set('InsurerId', insurerId.toString())
-    .set('File', file)
-    .set('FileName', fileName);
-    const paramsObject = params.keys().reduce((object, key) => {
-        object[key] = params.get(key)
-        return object
-    }, {})
+    var request = {
+      Name: name,
+      AdditionalInfo: additionalInfo,
+      StartDate: startDate.toJSON(),
+      EndDate: endDate.toJSON(),
+      InsurerId: insurerId,
+      File: file,
+      FileName: fileName
+    };
     return this.httpClient
-      .post('http://rsventaja.com:8080/api/Policy/new', JSON.stringify(paramsObject), this._httpOptions);
+      .post(`${environment.apiEndpoint}/api/Policy/new`, JSON.stringify(request), this._httpOptions);
   }
 
   private extractData(res: any): any {

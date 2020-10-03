@@ -204,6 +204,11 @@
         <ngb-alert type="success" *ngIf="displaySuccess" (close)="close()">Cadastro realizado com sucesso!
         </ngb-alert>
         <h2>Cadastrar apólice</h2><br>
+        <div class="center">
+          <mat-progress-spinner *ngIf="addingPolicy" style="margin:0 auto;" class="example-margin" color="primary"
+            mode="indeterminate">
+          </mat-progress-spinner>
+        </div>
         <form [formGroup]="insertForm" (ngSubmit)="onInsertSubmit(insertForm)">
           <div fxLayout="column">
             <mat-form-field class="full-width" appearance="fill">
