@@ -15,11 +15,7 @@
   </div>
 </nav>
 <div class="jumbotron text-center">
-  <img alt="RS Ventaja" src="../assets/rsventajalogo.png" width="100" height="100">
-
-  <h1><b>RS Ventaja</b></h1>
-  <h2>Painel de Controle</h2>
-
+  <img alt="RS Ventaja" src="../assets/rsventajaheader.png" width="200" height="200">
 </div>
 <ng-container *ngIf="signedin">
   <mat-tab-group>
@@ -29,8 +25,10 @@
         <table mat-table [dataSource]="pols" class="mat-elevation-z2">
           <ng-container matColumnDef="renewal">
             <th mat-header-cell *matHeaderCellDef>Calculado?</th>
-            <td mat-cell *matCellDef="let element"> <input type="checkbox" [checked]="element.renewalStarted"
-                (click)="updateRenewalStarted(element.policyId, $event)" /> </td>
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox color="primary" [checked]="element.renewalStarted" (click)="updateRenewalStarted(element.policyId, $event)">
+              </mat-checkbox>
+            </td>
           </ng-container>
           <ng-container matColumnDef="days">
             <th mat-header-cell *matHeaderCellDef>Dias Restantes</th>

@@ -25,6 +25,7 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 registerLocaleData(localePt);
 
@@ -55,7 +56,8 @@ registerLocaleData(localePt);
     MatNativeDateModule,
     MatTabsModule,
     FlexLayoutModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ],
   providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'}],
   bootstrap: [AppComponent]

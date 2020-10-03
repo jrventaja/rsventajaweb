@@ -20,17 +20,17 @@
     </div>
 </nav>
 <div class="jumbotron text-center">
-    <img alt="RS Ventaja" src="../assets/rsventajalogo.png" width="100" height="100">
-
-    <h1><b>RS Ventaja</b></h1>
-    <h2>Painel de Controle</h2>
-
+    <img alt="RS Ventaja" src="../assets/rsventajaheader.png" width="200" height="200">
 </div>
 <div class="content">
     <ngb-alert *ngIf="displayWrongAuth" (close)="closeAuth()">Usuário ou senha incorretos!</ngb-alert>
     <ngb-alert *ngIf="displayNotFilled" (close)="closeFilled()">Favor preencher todos os campos antes de prosseguir!
     </ngb-alert>
-
+    <div class="center">
+        <mat-progress-spinner *ngIf="authenticating" style="margin:0 auto;" class="example-margin" color="primary"
+            mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
     <form [formGroup]="signForm" style="text-align: center" (ngSubmit)="onSubmit(signForm)">
         <mat-form-field appearance="fill">
             <mat-label>Usuário</mat-label>
@@ -42,7 +42,7 @@
             <input type="password" matInput formControlName="password">
         </mat-form-field>
         <br>
-            <button mat-raised-button color="primary" type="submit">Entrar</button>
+        <button mat-raised-button color="primary" type="submit">Entrar</button>
 
     </form>
 </div>

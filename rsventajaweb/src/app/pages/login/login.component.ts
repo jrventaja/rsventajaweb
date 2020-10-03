@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   sessionStorage = sessionStorage;
   displayWrongAuth = false;
   displayNotFilled = false;
+  authenticating = false;
   constructor(private securityService: SecurityService, private formBuilder: FormBuilder, private router: Router, private modal: NgbModal) {
     this.signForm = this.formBuilder.group({
       user: '',
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit(signForm: FormGroup) {
+    this.authenticating = true;
     if (signForm.value.user.length > 0 && signForm.value.password.length > 0) {
       this.displayNotFilled = false;
       this.displayWrongAuth = false;
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.displayNotFilled = true;
     }
+    this.authenticating = false;
   }
   closeFilled(){
     this.displayNotFilled = false;
