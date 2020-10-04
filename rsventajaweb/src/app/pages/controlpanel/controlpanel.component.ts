@@ -108,7 +108,7 @@ export class ControlpanelComponent implements OnInit {
   }
 
   async updateRenewalStarted(policyId: number, evt) {
-    let bool = evt.target.checked;
+    let bool = !evt;
     await this.policyService.updateRenewalStarted(policyId, bool).toPromise();;
   }
 
