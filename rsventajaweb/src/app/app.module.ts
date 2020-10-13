@@ -22,10 +22,23 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatTabsModule} from '@angular/material/tabs';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
+export class MyDateAdapter extends NativeDateAdapter{
+  parse(value: string) {
+    let it=value.split('/');
+    if (it.length==3)
+    return new Date(+it[2],+it[1]-1,+it[0],12)
+  }
+
+  format(date: Date, displayFormat: Object) {
+    return ('0'+date.getDate()).slice(-2)+'/'+
+           ('0'+(date.getMonth()+1)).slice(-2)+'/'+date.getFullYear()
+  }
+}
 
 registerLocaleData(localePt);
 
@@ -59,7 +72,10 @@ registerLocaleData(localePt);
     MatProgressSpinnerModule,
     MatCheckboxModule
   ],
-  providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'}],
+  providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'},
+  {provide: DateAdapter, useClass: MyDateAdapter}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
