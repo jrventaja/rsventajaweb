@@ -7,10 +7,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 8px 0;
-}
-
 p {
   margin: 0;
 }
@@ -21,6 +17,8 @@ p {
 
 li a:hover {
   background-color: #686968;
+  color: white;
+  opacity: 60%;
 }
 
 li {
@@ -34,9 +32,11 @@ li {
   top: 0;
   left: 0;
   right: 0;
-  height: 45px;
+  height: 50px;
+  
   display: flex;
-  background-color: #4d4d4d;
+  background-color: #262625;
+  opacity: 100%;
   color: #c2c3c4;
 }
 
@@ -50,7 +50,6 @@ li {
   padding: 0 16px;
   flex-direction: column;
   align-items: center;
-  font-size: 18px;
 }
 
 footer {
@@ -69,22 +68,13 @@ footer a {
   border-radius: 30%;
 }
 
-.center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-  z-index: 9999;
-}
-
 .jumbotron {
-  background-image: url("../../../assets/control-panel.jpg");
-  background-repeat: no-repeat;
-  background-size: 100%;
+  font-size: 28px;
+  background-image: url("../../../assets/dustyroad.jpg");
   background-color: #3e4c51;
   color: #fff;
+  padding: 2em;
+  font-family: 'Times New Roman', Times, serif
 }
 
 .container-fluid {
@@ -102,11 +92,6 @@ footer a {
   animation-duration: 1s;
   -webkit-animation-duration: 1s;
   visibility: visible;
-}
-
-.form-control {
-  align-content: center;
-  max-width: 100px;
 }
 
 @keyframes slide {
@@ -131,9 +116,23 @@ footer a {
   }
 }
 
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 9999;
+}
+
 /* Responsive Styles */
 
 @media screen and (max-width: 767px) {
+  .navbar {
+    padding-top: 0;
+    padding-left: 0.5em;
+  }
   .card-container>*:not(.circle-link), .terminal {
     width: 100%;
   }
@@ -148,10 +147,6 @@ footer a {
     right: 120px;
     transform: rotate(-5deg);
   }
-}
-
-.fade.in {
-  opacity: 1;
 }
 
 @media screen and (max-width: 575px) {

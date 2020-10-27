@@ -8,8 +8,11 @@
 }
 
   
+
 li a:hover {
   background-color: #686968;
+  color: white;
+  opacity: 60%;
 }
 
 li{
@@ -23,12 +26,13 @@ li{
   top: 0;
   left: 0;
   right: 0;
-  height: 45px;
+  height: 50px;
+  
   display: flex;
-  background-color: #4d4d4d;
+  background-color: #262625;
+  opacity: 100%;
   color: #c2c3c4;
 }
-
 
 .container-fluid {
   padding: 60px 50px;
@@ -57,7 +61,7 @@ table {
   -moz-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
-  
+  z-index: 9999;
 }
 .content2 {
   max-width:500px;
@@ -70,7 +74,6 @@ table {
 .jumbotron {
   background-image: url("../../../assets/control-panel.jpg");
   background-repeat: no-repeat;
-  background-size: 100%;
   background-color: #3e4c51;
   color: #fff;
   padding: 70px;
@@ -83,4 +86,25 @@ table {
 
 .full-width {
   width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .navbar {
+    padding-top: 0;
+    padding-left: 0.5em;
+  }
+  .card-container>*:not(.circle-link), .terminal {
+    width: 100%;
+  }
+  .card:not(.highlight-card) {
+    height: 16px;
+    margin: 8px 0;
+  }
+  .card.highlight-card span {
+    margin-left: 72px;
+  }
+  svg#rocket-smoke {
+    right: 120px;
+    transform: rotate(-5deg);
+  }
 }
