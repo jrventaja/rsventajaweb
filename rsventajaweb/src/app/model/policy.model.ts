@@ -8,4 +8,5 @@ export class Policy {
     endDate: Date;
     renewalStarted: boolean;
     insurer: string;
+    fileName: string;
 }

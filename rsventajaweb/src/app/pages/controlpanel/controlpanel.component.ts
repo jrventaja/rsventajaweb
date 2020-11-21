@@ -29,6 +29,7 @@ export class ControlpanelComponent implements OnInit {
   model: NgbDateStruct;
   file: string | ArrayBuffer;
   fileName: string;
+  accept: "application/pdf";
   faCalendar = faCalendar;
   addingPolicy = false;
   displayAlert = false;
@@ -70,21 +71,8 @@ export class ControlpanelComponent implements OnInit {
     return Math.floor((endDate.getTime() - nowDate.getTime()) / 1000 / 60 / 60 / 24);
   }
 
-  async download(policyId: number) {
-    let policyFile = await this.policyService.getPolicyFile(policyId).toPromise();
-    var binary = atob(policyFile.encodedFileData.replace(/\s/g, ''));
-    var len = binary.length;
-    var buffer = new ArrayBuffer(len);
-    var view = new Uint8Array(buffer);
-    for (var i = 0; i < len; i++) {
-      view[i] = binary.charCodeAt(i);
-    }
-    var blob = new Blob([view], { type: "application/octet-stream" });
-    var url = URL.createObjectURL(blob);
-    var anchor = document.createElement("a");
-    anchor.download = policyFile.fileName;
-    anchor.href = url;
-    anchor.click();
+  fileUrl(fileName: string) {
+    return (`https://policiesrsventaja.s3-sa-east-1.amazonaws.com/${fileName}`)
   }
 
   onCurrentPoliciesSubmit(queryCurrentForm: FormGroup) {

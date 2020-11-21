@@ -67,7 +67,7 @@
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef>Download</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-flat-button color="primary" on-click="download(element.policyId)">Download</button>
+              <a mat-flat-button color="primary" href="{{fileUrl(element.fileName)}}" target="_blank">Download</a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -129,7 +129,7 @@
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef>Download</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-flat-button color="primary" on-click="download(element.policyId)">Download</button>
+              <a mat-flat-button color="primary" href="{{fileUrl(element.fileName)}}" target="_blank">Download</a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumnsCurrent"></tr>
@@ -187,7 +187,7 @@
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef>Download</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-flat-button color="primary" on-click="download(element.policyId)">Download</button>
+              <a mat-flat-button color="primary" href="{{fileUrl(element.fileName)}}" target="_blank">Download</a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumnsAll"></tr>
@@ -238,7 +238,7 @@
             </mat-form-field>
             <div fxLayout="row" fxLayoutAlign="space-evenly center">
               <mat-form-field class="full-width" appearance="fill">
-                <ngx-mat-file-input valuePlaceholder="danger" formControlName="file" (change)="handleUpload()">
+                <ngx-mat-file-input valuePlaceholder="danger" accept=".pdf" formControlName="file" (change)="handleUpload()">
                 </ngx-mat-file-input>
               </mat-form-field>
             </div>

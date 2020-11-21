@@ -37,11 +37,6 @@ export class PolicyService {
       .get<Policy[]>(`${environment.apiEndpoint}/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
   }
 
-  getPolicyFile(policyId: number) {
-    return this.httpClient
-      .get<FileResponse>(`${environment.apiEndpoint}/api/Policy/${policyId}/download`, this._httpOptions);
-  }
-
   updateRenewalStarted(policyId: number, status: boolean) {
     var request = {
       PolicyId: policyId,
