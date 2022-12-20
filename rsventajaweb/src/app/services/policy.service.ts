@@ -19,49 +19,43 @@ export class PolicyService {
   private _httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-      'Access-Control-Allow-Headers':
-        'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-        'Token' : sessionStorage.getItem("Token")
+        'Authorization' : `Bearer ${sessionStorage.getItem("Token")}`
     })
   };
 
   getDuePolicies() {
     return this.httpClient
-      .get<Policy[]>(`${environment.apiEndpoint}/api/Policy/duePolicies`, this._httpOptions);
+      .get<Policy[]>(`${environment.apiEndpoint}/api/policies/last-30-days`, this._httpOptions);
   }
 
   getPoliciesQuery(query: string, currentOnly: boolean) {
     return this.httpClient
-      .get<Policy[]>(`${environment.apiEndpoint}/api/Policy?searchTerm=${query}&currentOnly=${currentOnly}`, this._httpOptions);
+      .get<Policy[]>(`${environment.apiEndpoint}/api/policies?name=${query}&current_only=${currentOnly}`, this._httpOptions);
   }
 
-  updateRenewalStarted(policyId: number, status: boolean) {
+  updateRenewalStarted(id: number, status: boolean) {
     var request = {
-      PolicyId: policyId,
-      Status: status
+      status: status
     };
     return this.httpClient
-      .post<boolean>(`${environment.apiEndpoint}/api/Policy/updateRenewal`, JSON.stringify(request), this._httpOptions);
+      .put<boolean>(`${environment.apiEndpoint}/api/policies/${id}`, JSON.stringify(request), this._httpOptions);
   }
 
   addPolicy(name: string, additionalInfo: string, startDate: Date, endDate: Date, insurerId: number, file: string, fileName: string) {
     var request = {
-      Name: name,
-      AdditionalInfo: additionalInfo,
-      StartDate: startDate.toJSON(),
-      EndDate: endDate.toJSON(),
-      InsurerId: insurerId,
-      File: file,
-      FileName: fileName
+      name: name,
+      detail: additionalInfo,
+      start_date: startDate.toJSON(),
+      end_date: endDate.toJSON(),
+      insurer_id: insurerId,
+      encoded_file: file
     };
     return this.httpClient
-      .post(`${environment.apiEndpoint}/api/Policy/new`, JSON.stringify(request), this._httpOptions);
+      .post(`${environment.apiEndpoint}/api/policy`, JSON.stringify(request), this._httpOptions);
   }
 
-  deletePolicy(policyId: number, fileName: string){
-    return this.httpClient.delete(`${environment.apiEndpoint}/api/Policy/${policyId}/${fileName}`, this._httpOptions);
+  deletePolicy(id: number, fileName: string){
+    return this.httpClient.delete(`${environment.apiEndpoint}/api/policies/${id}`, this._httpOptions);
   }
 
   private extractData(res: any): any {

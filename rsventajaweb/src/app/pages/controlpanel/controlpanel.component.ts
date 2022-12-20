@@ -58,7 +58,7 @@ export class ControlpanelComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.signedin = await this.securityService.verifyAuthentication(sessionStorage.getItem("Token")).toPromise();
+    this.signedin = this.securityService.verifyAuthentication(sessionStorage.getItem("Token"));
     this.loadData();
   }
 
@@ -101,9 +101,9 @@ export class ControlpanelComponent implements OnInit {
     }
   }
 
-  async updateRenewalStarted(policyId: number, evt) {
+  async updateRenewalStarted(id: number, evt) {
     let bool = !evt;
-    await this.policyService.updateRenewalStarted(policyId, bool).toPromise();;
+    await this.policyService.updateRenewalStarted(id, bool).toPromise();;
   }
 
   async onInsertSubmit(insertForm: FormGroup) {
@@ -130,12 +130,12 @@ export class ControlpanelComponent implements OnInit {
     };
   }
 
-  delete(policyId: number, fileName: string) {
-    this.policyService.deletePolicy(policyId, fileName).subscribe(_ =>
+  delete(id: number, fileName: string) {
+    this.policyService.deletePolicy(id, fileName).subscribe(_ =>
       {
         var index = this.queryPolicies.map(x => {
-          return x.policyId;
-        }).indexOf(policyId);  
+          return x.id;
+        }).indexOf(id);  
 
         this.queryPolicies.splice(index, 1);
         this.queryPoliciesSubject$.next(this.queryPolicies.slice(0));

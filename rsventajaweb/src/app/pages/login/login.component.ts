@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   async login(username: string, password: string) {
     var userTokenData = await this.securityService.getToken(username, password).toPromise();
-    sessionStorage.setItem("Token", userTokenData.token)
+    sessionStorage.setItem("Token", userTokenData.access_token)
   }
 
   async onSubmit(signForm: FormGroup) {
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         return null;
       });
       if (userTokenData != null) {
-        sessionStorage.setItem("Token", userTokenData.token)
+        sessionStorage.setItem("Token", userTokenData.access_token)
         this.router.navigate(['/controlpanel'])
       } else {
         this.displayWrongAuth = true;

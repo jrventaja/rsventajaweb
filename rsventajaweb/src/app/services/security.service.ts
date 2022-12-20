@@ -15,48 +15,33 @@ export class SecurityService {
 
   private _httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-      'Access-Control-Allow-Headers':
-        'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+      'Content-Type': 'application/json'
     })
   };
 
   getToken(username: string, password: string) {
-    const params = new HttpParams()
-    .set('Username', username)
-    .set('Password', password);
-    const paramsObject = params.keys().reduce((object, key) => {
-        object[key] = params.get(key)
-        return object
-    }, {})
+    var paramsObject = {
+      user: {
+        username: username,
+        password: password
+      }
+    }
     return this.httpClient
-      .post<UserToken>(`${environment.apiEndpoint}/api/Authentication/token`, JSON.stringify(paramsObject), this._httpOptions);
+      .post<UserToken>(`${environment.apiEndpoint}/api/login`, JSON.stringify(paramsObject), this._httpOptions);
   }
 
   verifyAuthentication(token: string) {
-    const params = new HttpParams()
-    .set('token', token);
-    const paramsObject = params.keys().reduce((object, key) => {
-        object[key] = params.get(key)
-        return object
-    }, {})
-    return this.httpClient
-      .post<UserToken>(`${environment.apiEndpoint}/api/Authentication/token/verify`, JSON.stringify(paramsObject), this._httpOptions)
-      .pipe(map(this.extractData), catchError(this.handleError.bind(this)));
+    var parsed_jwt = this.parseJwt(token);
+    return parsed_jwt.exp > Date.now() / 1000
   }
 
-  private extractData(res: any): any {
-    const body = res;
-    return body || {};
-  }
+  parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-  private handleError(error: any) {
-    if (error.status === 401) {
-      throw error;
-    } else {
-      throw error;
-    }
-  }
+    return JSON.parse(jsonPayload);
+}
 }

@@ -20,17 +20,13 @@ export class InsurerService {
   private _httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-      'Access-Control-Allow-Headers':
-        'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-        'Token' : sessionStorage.getItem("Token")
+        'Authorization' : `Bearer ${sessionStorage.getItem("Token")}`
     })
   };
 
   getInsurers() {
     return this.httpClient
-      .get<Insurer[]>(`${environment.apiEndpoint}/api/Insurer`, this._httpOptions);
+      .get<Insurer[]>(`${environment.apiEndpoint}/api/insurers`, this._httpOptions);
   }
 
   private extractData(res: any): any {

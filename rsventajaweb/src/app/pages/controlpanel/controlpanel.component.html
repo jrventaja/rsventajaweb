@@ -19,19 +19,19 @@
           <ng-container matColumnDef="renewal">
             <th mat-header-cell *matHeaderCellDef>Calculado?</th>
             <td mat-cell *matCellDef="let element">
-              <mat-checkbox #checkbox color="primary" [checked]="element.renewalStarted"
-                (click)="updateRenewalStarted(element.policyId, checkbox.checked)">
+              <mat-checkbox #checkbox color="primary" [checked]="element.calculated"
+                (click)="updateRenewalStarted(element.id, checkbox.checked)">
               </mat-checkbox>
             </td>
           </ng-container>
           <ng-container matColumnDef="days">
             <th mat-header-cell *matHeaderCellDef>Dias Restantes</th>
-            <td mat-cell *matCellDef="let element"> {{ calculateDays(element.endDate) }} </td>
+            <td mat-cell *matCellDef="let element"> {{ calculateDays(element.end_date) }} </td>
           </ng-container>
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nome</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.customerName.firstName }} {{ element.customerName.lastName }}
+              {{ element.name }}
             </td>
           </ng-container>
           <ng-container matColumnDef="insurer">
@@ -43,25 +43,25 @@
           <ng-container matColumnDef="additional">
             <th mat-header-cell *matHeaderCellDef>Informações Adicionais</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.additionalInfo }}
+              {{ element.detail }}
             </td>
           </ng-container>
           <ng-container matColumnDef="start">
             <th mat-header-cell *matHeaderCellDef>Início</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.startDate | date:'shortDate':'':'pt-BR' }}
+              {{ element.start_date | date:'shortDate':'':'pt-BR' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="end">
             <th mat-header-cell *matHeaderCellDef>Vencimento</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.endDate | date:'shortDate':'':'pt-BR' }}
+              {{ element.end_date | date:'shortDate':'':'pt-BR' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef>Ação</th>
             <td mat-cell *matCellDef="let element">
-              <a mat-flat-button color="primary" href="{{fileUrl(element.fileName)}}" target="_blank">Abrir</a>
+              <a mat-flat-button color="primary" href="{{fileUrl(element.file_name)}}" target="_blank">Abrir</a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -88,12 +88,12 @@
         <table *ngIf="queryCurrentPolicies$ | async as cpols" mat-table [dataSource]="cpols" class="mat-elevation-z2">
           <ng-container matColumnDef="days">
             <th mat-header-cell *matHeaderCellDef>Dias Restantes</th>
-            <td mat-cell *matCellDef="let element"> {{ calculateDays(element.endDate) }} </td>
+            <td mat-cell *matCellDef="let element"> {{ calculateDays(element.end_date) }} </td>
           </ng-container>
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nome</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.customerName.firstName }} {{ element.customerName.lastName }}
+              {{ element.name }}
             </td>
           </ng-container>
           <ng-container matColumnDef="insurer">
@@ -105,25 +105,25 @@
           <ng-container matColumnDef="additional">
             <th mat-header-cell *matHeaderCellDef>Informações Adicionais</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.additionalInfo }}
+              {{ element.detail }}
             </td>
           </ng-container>
           <ng-container matColumnDef="start">
             <th mat-header-cell *matHeaderCellDef>Início</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.startDate | date:'shortDate':'':'pt-BR' }}
+              {{ element.start_date | date:'shortDate':'':'pt-BR' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="end">
             <th mat-header-cell *matHeaderCellDef>Vencimento</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.endDate | date:'shortDate':'':'pt-BR' }}
+              {{ element.end_date | date:'shortDate':'':'pt-BR' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef>Ação</th>
             <td mat-cell *matCellDef="let element">
-              <a mat-flat-button color="primary" href="{{fileUrl(element.fileName)}}" target="_blank">Abrir</a>
+              <a mat-flat-button color="primary" href="{{fileUrl(element.file_name)}}" target="_blank">Abrir</a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumnsCurrent"></tr>
@@ -151,7 +151,7 @@
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nome</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.customerName.firstName }} {{ element.customerName.lastName }}
+              {{ element.name }}
             </td>
           </ng-container>
           <ng-container matColumnDef="insurer">
@@ -163,31 +163,31 @@
           <ng-container matColumnDef="additional">
             <th mat-header-cell *matHeaderCellDef>Informações Adicionais</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.additionalInfo }}
+              {{ element.detail }}
             </td>
           </ng-container>
           <ng-container matColumnDef="start">
             <th mat-header-cell *matHeaderCellDef>Início</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.startDate | date:'shortDate':'':'pt-BR' }}
+              {{ element.start_date | date:'shortDate':'':'pt-BR' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="end">
             <th mat-header-cell *matHeaderCellDef>Vencimento</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.endDate | date:'shortDate':'':'pt-BR' }}
+              {{ element.end_date | date:'shortDate':'':'pt-BR' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef>Abrir</th>
             <td mat-cell *matCellDef="let element">
-              <a mat-flat-button color="primary" href="{{fileUrl(element.fileName)}}" target="_blank">Abrir</a>
+              <a mat-flat-button color="primary" href="{{fileUrl(element.file_name)}}" target="_blank">Abrir</a>
             </td>
           </ng-container>
           <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef>Excluir</th>
             <td mat-cell *matCellDef="let element">
-              <a mat-flat-button color="accent" (click)="delete(element.policyId, element.fileName)" target="_blank">Excluir</a>
+              <a mat-flat-button color="accent" (click)="delete(element.id, element.file_name)" target="_blank">Excluir</a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumnsAll"></tr>

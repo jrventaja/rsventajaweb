@@ -1,12 +1,11 @@
-import { Name } from './name.model';
 
 export class Policy {
-    policyId: number;
-    customerName: Name;
-    additionalInfo: string;
-    startDate: Date;
-    endDate: Date;
-    renewalStarted: boolean;
+    id: number;
+    customer_name: string;
+    detail: string;
+    start_date: Date;
+    end_date: Date;
+    calculated: boolean;
     insurer: string;
-    fileName: string;
+    file_name: string;
 }
