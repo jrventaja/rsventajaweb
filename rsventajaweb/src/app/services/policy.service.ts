@@ -60,6 +60,10 @@ export class PolicyService {
       .post(`${environment.apiEndpoint}/api/Policy/new`, JSON.stringify(request), this._httpOptions);
   }
 
+  deletePolicy(policyId: number, fileName: string){
+    return this.httpClient.delete(`${environment.apiEndpoint}/api/Policy/${policyId}/${fileName}`, this._httpOptions);
+  }
+
   private extractData(res: any): any {
     const body = res;
     return body || {};

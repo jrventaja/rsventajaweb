@@ -1,26 +1,16 @@
-<nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">
-        <img width="40" alt="RS Ventaja" src="../assets/rsventajalogo.png" />
-    </a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-            <li>
-                <a class="nav-link" href="#sobre">Sobre nós</a>
-            </li>
-            <li>
-                <a class="nav-link" href="#produtos">Produtos</a>
-            </li>
-            <li>
-                <a class="nav-link" href="#seguradoras">Seguradoras</a>
-            </li>
-            <li>
-                <a class="nav-link" href="#contato">Contato</a>
-            </li>
-        </ul>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <nav class="navbar navbar-expand-lg">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="">Página Inicial</a>
+                </li>
+              </ul>
+        </div>
+    </nav>
+    <div fxLayout="column" fxLayoutAlign="center center" class="jumbotron text-center">
+        <img alt="RS Ventaja" src="../assets/rsventajaheader.png" width="200" height="200">
     </div>
-</nav>
-<div class="jumbotron text-center">
-    <img alt="RS Ventaja" src="../assets/rsventajaheader.png" width="200" height="200">
 </div>
 <div class="content">
     <ngb-alert *ngIf="displayWrongAuth" (close)="closeAuth()">Usuário ou senha incorretos!</ngb-alert>
@@ -31,13 +21,13 @@
             mode="indeterminate">
         </mat-progress-spinner>
     </div>
-    <form [formGroup]="signForm" style="text-align: center" (ngSubmit)="onSubmit(signForm)">
-        <mat-form-field appearance="fill">
+    <form [formGroup]="signForm" style="text-align: center; font-size: 14px;" (ngSubmit)="onSubmit(signForm)">
+        <mat-form-field appearance="outline">
             <mat-label>Usuário</mat-label>
             <input matInput type="text" formControlName="user">
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>Senha</mat-label>
             <input type="password" matInput formControlName="password">
         </mat-form-field>

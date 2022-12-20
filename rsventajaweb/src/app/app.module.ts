@@ -11,7 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { DatePipe, registerLocaleData } from '@angular/common';
+import { DatePipe, HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -70,10 +70,10 @@ registerLocaleData(localePt);
     MatTabsModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   providers: [ DatePipe, {provide: LOCALE_ID, useValue: 'pt-BR'},
-  {provide: DateAdapter, useClass: MyDateAdapter}],
+  {provide: DateAdapter, useClass: MyDateAdapter}, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
