@@ -45,13 +45,13 @@ export class PolicyService {
     var request = {
       name: name,
       detail: additionalInfo,
-      start_date: startDate.toJSON(),
-      end_date: endDate.toJSON(),
+      start_date: startDate.toISOString().split('T')[0],
+      end_date: endDate.toISOString().split('T')[0],
       insurer_id: insurerId,
       encoded_file: file
     };
     return this.httpClient
-      .post(`${environment.apiEndpoint}/api/policy`, JSON.stringify(request), this._httpOptions);
+      .post(`${environment.apiEndpoint}/api/policies`, JSON.stringify(request), this._httpOptions);
   }
 
   deletePolicy(id: number, fileName: string){
