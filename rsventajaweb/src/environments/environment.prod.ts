@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: 'https://rsventaja.com:8080'
+  apiEndpoint: 'https://rsventaja.com:4000'
 };
